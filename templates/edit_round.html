@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Edit Round</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label>Score Data (JSON or formatted string)</label>
+            <textarea name="score_data" class="form-control" rows="5" required>{{ round.score_data or '' }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Save Round</button>
+    </form>
+</div>
+{% endblock %}
