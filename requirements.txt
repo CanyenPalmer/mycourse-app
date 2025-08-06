@@ -4,3 +4,4 @@ Flask-SQLAlchemy
 gunicorn
 python-dotenv
 matplotlib
+Flask-WTF
