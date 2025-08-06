@@ -9,7 +9,7 @@
 <body class="bg-gray-100 text-gray-800 font-sans">
     <nav class="bg-white shadow p-4 mb-6 flex justify-between items-center">
         <div>
-            <a href="{{ url_for('main.home') }}" class="text-xl font-bold text-blue-600">MyCourse</a>
+            <a href="{{ url_for('home') }}" class="text-xl font-bold text-blue-600">MyCourse</a>
         </div>
         <div class="space-x-4">
             {% if current_user.is_authenticated %}
