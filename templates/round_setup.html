@@ -1,18 +1,34 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block content %}
-<h2 class="text-xl font-semibold mb-4">Start Round</h2>
-<form method="post" class="space-y-4">
-    <input name="course_name" placeholder="Course Name" class="input" required />
-    <input name="tee_box" placeholder="Tee Box (e.g. Blue)" class="input" required />
-    <input name="start_hole" type="number" min="1" max="18" placeholder="Starting Hole" class="input" required />
-    <input name="holes_played" type="number" min="9" max="18" placeholder="Holes Playing (9 or 18)" class="input" required />
-    <input name="date_played" type="date" class="input" required />
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Start New Round</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
 
-    <p class="text-sm text-gray-600">Enter par for each hole:</p>
-    {% for i in range(1, 19) %}
-        <input name="par_{{ i }}" type="number" min="3" max="6" placeholder="Hole {{ i }} Par" class="input" />
-    {% endfor %}
+        <div class="mb-3">
+            {{ form.course_name.label(class="form-label") }}
+            {{ form.course_name(class="form-control") }}
+        </div>
 
-    <button type="submit" class="btn">Continue</button>
-</form>
+        <div class="mb-3">
+            {{ form.tee.label(class="form-label") }}
+            {{ form.tee(class="form-select") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.num_holes.label(class="form-label") }}
+            {{ form.num_holes(class="form-select") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.starting_hole.label(class="form-label") }}
+            {{ form.starting_hole(class="form-control") }}
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Begin Round</button>
+        </div>
+    </form>
+</div>
 {% endblock %}
+
