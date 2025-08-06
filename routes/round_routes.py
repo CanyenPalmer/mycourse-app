@@ -15,11 +15,25 @@ def start_round():
         tee = request.form['tee']
         holes = int(request.form['holes'])
 
-        new_course = Course(name=course_name, pars=",".join(par_values))
+        new_course = CourseTemplate(
+            course_name=course_name,
+            hole_pars=",".join(par_values),
+            total_par=sum(map(int, par_values))
+        )
         db.session.add(new_course)
         db.session.commit()
 
-        new_round = Round(user_id=current_user.id, course_id=new_course.id, tee=tee, holes=holes)
+        new_round = Round(
+            user_id=current_user.id,
+            course_name=course_name,
+            total_par=new_course.total_par,
+            total_score=0,
+            fairways_hit=0,
+            greens_in_reg=0,
+            putts=0,
+            penalties=0,
+            notes=""
+        )
         db.session.add(new_round)
         db.session.commit()
 
@@ -33,9 +47,14 @@ def edit_round(round_id):
     round_data = Round.query.get_or_404(round_id)
 
     if request.method == 'POST':
-        round_data.score_data = request.form['score_data']
+        round_data.total_score = int(request.form.get('total_score', 0))
+        round_data.fairways_hit = int(request.form.get('fairways_hit', 0))
+        round_data.greens_in_reg = int(request.form.get('greens_in_reg', 0))
+        round_data.putts = int(request.form.get('putts', 0))
+        round_data.penalties = int(request.form.get('penalties', 0))
+        round_data.notes = request.form.get('notes', '')
         db.session.commit()
-        return redirect(url_for('main.dashboard'))
+        return redirect(url_for('round.round_summary', round_id=round_data.id))
 
     return render_template('edit_round.html', round=round_data)
 
@@ -45,9 +64,9 @@ def round_summary(round_id):
     round_data = Round.query.get_or_404(round_id)
     return render_template('round_summary.html', round=round_data)
 
-# ✅ Add this to support url_for('round.past_rounds')
 @round_bp.route('/past_rounds')
 @login_required
 def past_rounds():
     user_rounds = Round.query.filter_by(user_id=current_user.id).order_by(Round.date_played.desc()).all()
     return render_template('past_rounds.html', rounds=user_rounds)
+
