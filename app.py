@@ -1,17 +1,22 @@
-from flask import Flask, render_template, redirect, request, session, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-import os
-from config import Config
-from models import db, User, Round, CourseTemplate, UserTemplate
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from models import db, User, Round, CourseTemplate
 from utils.benchmark import get_benchmark_feedback
+from werkzeug.security import generate_password_hash, check_password_hash
+import os
 
 app = Flask(__name__)
-app.config.from_object(Config)
+app.config.from_object("config.Config")
 
 db.init_app(app)
-login_manager = LoginManager(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
 login_manager.login_view = "login"
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -26,6 +31,11 @@ def register():
     if request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
+
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            return "User already exists."
+
         user = User(email=email)
         user.set_password(password)
         db.session.add(user)
@@ -39,13 +49,16 @@ def login():
     if request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
+
         user = User.query.filter_by(email=email).first()
         if user and user.check_password(password):
             login_user(user)
             return redirect(url_for("dashboard"))
+        return "Invalid credentials."
     return render_template("login.html")
 
 @app.route("/logout")
+@login_required
 def logout():
     logout_user()
     return redirect(url_for("index"))
@@ -53,30 +66,10 @@ def logout():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    rounds = Round.query.filter_by(user_id=current_user.id).order_by(Round.date_played.desc()).limit(10).all()
+    rounds = Round.query.filter_by(user_id=current_user.id).order_by(Round.id.desc()).limit(10).all()
     return render_template("dashboard.html", rounds=rounds)
 
-@app.route("/search_course_templates")
-@login_required
-def search_course_templates():
-    q = request.args.get("q", "")
-    if not q:
-        return jsonify([])
-
-    templates = (
-        CourseTemplate.query
-        .filter(CourseTemplate.course_name.ilike(f"{q}%"))
-        .order_by(CourseTemplate.created_count.desc())
-        .limit(5)
-        .all()
-    )
-
-    return jsonify([
-        {"id": t.id, "course_name": t.course_name, "par_total": t.par_total}
-        for t in templates
-    ])
-
-@app.route("/start_round", methods=["GET", "POST"])
+@app.route("/start-round", methods=["GET", "POST"])
 @login_required
 def start_round():
     if request.method == "POST":
@@ -86,26 +79,11 @@ def start_round():
         holes_played = int(request.form["holes_played"])
         date_played = request.form["date_played"]
 
-        course_template_id = request.form.get("course_template_id")
-        if course_template_id:
-            template = CourseTemplate.query.get(int(course_template_id))
-            par_list = json.loads(template.par_list)
-        else:
-            par_list = [int(request.form[f"par_{i}"]) for i in range(1, holes_played + 1)]
-            par_total = sum(par_list)
-
-            template = CourseTemplate.query.filter_by(course_name=course_name, par_total=par_total).first()
-            if template:
-                template.created_count += 1
-            else:
-                template = CourseTemplate(course_name=course_name, par_list=json.dumps(par_list), par_total=par_total)
-                db.session.add(template)
-
-            user_template = UserTemplate(user_id=current_user.id, course_template_id=template.id,
-                                         custom_name=f"Custom ({course_name}) Template | Par {par_total}")
-            db.session.add(user_template)
-
-        db.session.commit()
+        par_list = []
+        for i in range(1, 19):
+            par_val = request.form.get(f"par_{i}")
+            if par_val:
+                par_list.append(int(par_val))
 
         session["round_info"] = {
             "course_name": course_name,
@@ -113,15 +91,57 @@ def start_round():
             "start_hole": start_hole,
             "holes_played": holes_played,
             "date_played": date_played,
-            "par_list": par_list
+            "par_list": par_list,
         }
-
-        return redirect(url_for("enter_stats"))
+        return redirect(url_for("round_stats"))
 
     return render_template("round_setup.html")
 
-@app.route("/enter_stats", methods=["GET", "POST"])
+@app.route("/round-stats", methods=["GET", "POST"])
 @login_required
-def enter_stats():
-    par_list = session["round_info"]["par_list"]
-    holes_played = session["round_info"]["holes_played"_]()_]()_
+def round_stats():
+    round_info = session.get("round_info")
+    par_list = round_info.get("par_list")
+    holes_played = round_info.get("holes_played")
+
+    if request.method == "POST":
+        strokes = []
+        putts = []
+        for i in range(holes_played):
+            strokes.append(int(request.form[f"strokes_{i}"]))
+            putts.append(int(request.form[f"putts_{i}"]))
+
+        new_round = Round(
+            user_id=current_user.id,
+            course_name=round_info["course_name"],
+            tee_box=round_info["tee_box"],
+            date_played=round_info["date_played"],
+            strokes=strokes,
+            putts=putts,
+            pars=par_list[:holes_played]
+        )
+        db.session.add(new_round)
+        db.session.commit()
+
+        session.pop("round_info", None)
+        session["last_round_id"] = new_round.id
+
+        return redirect(url_for("round_summary"))
+
+    return render_template("round_stats.html", par_list=par_list[:holes_played])
+
+@app.route("/round-summary")
+@login_required
+def round_summary():
+    round_id = session.get("last_round_id")
+    if not round_id:
+        return redirect(url_for("dashboard"))
+
+    round_obj = Round.query.get_or_404(round_id)
+    feedback = get_benchmark_feedback(round_obj)
+
+    return render_template("round_summary.html", round=round_obj, feedback=feedback)
+
+if __name__ == "__main__":
+    app.run()
+
