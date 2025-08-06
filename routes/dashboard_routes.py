@@ -4,9 +4,7 @@ from models import Round
 from io import BytesIO
 import base64
 import matplotlib.pyplot as plt
-from datetime import datetime
 from sqlalchemy import desc
-from models import db
 
 dashboard_bp = Blueprint('dashboard', __name__)
 
@@ -20,26 +18,27 @@ def dashboard():
     last_10_rounds = Round.query.filter_by(user_id=current_user.id)\
         .order_by(desc(Round.date_played)).limit(10).all()
 
-    # Prepare data for plot
-    dates = [r.date_played.strftime('%m-%d') for r in reversed(last_10_rounds)]
-    scores = [r.total_score for r in reversed(last_10_rounds)]
-    pars = [r.total_par for r in reversed(last_10_rounds)]
+    # Prepare data for plot if available
+    if last_10_rounds:
+        dates = [r.date_played.strftime('%m-%d') for r in reversed(last_10_rounds)]
+        scores = [r.total_score for r in reversed(last_10_rounds)]
+        pars = [r.total_par for r in reversed(last_10_rounds)]
 
-    # Plotting
-    plt.figure(figsize=(8, 4))
-    plt.plot(dates, scores, marker='o', label='Score', linestyle='-')
-    plt.plot(dates, pars, marker='x', label='Par', linestyle='--')
-    plt.xlabel('Date')
-    plt.ylabel('Strokes')
-    plt.title('Score vs Par (Last 10 Rounds)')
-    plt.legend()
-    plt.tight_layout()
+        plt.figure(figsize=(8, 4))
+        plt.plot(dates, scores, marker='o', label='Score', linestyle='-')
+        plt.plot(dates, pars, marker='x', label='Par', linestyle='--')
+        plt.xlabel('Date')
+        plt.ylabel('Strokes')
+        plt.title('Score vs Par (Last 10 Rounds)')
+        plt.legend()
+        plt.tight_layout()
 
-    # Convert plot to base64 for HTML
-    img = BytesIO()
-    plt.savefig(img, format='png')
-    img.seek(0)
-    plot_url = base64.b64encode(img.getvalue()).decode('utf8')
-    plt.close()
+        img = BytesIO()
+        plt.savefig(img, format='png')
+        img.seek(0)
+        plot_url = base64.b64encode(img.getvalue()).decode('utf8')
+        plt.close()
+    else:
+        plot_url = None
 
     return render_template("dashboard.html", latest_round=latest_round, plot_url=plot_url)
