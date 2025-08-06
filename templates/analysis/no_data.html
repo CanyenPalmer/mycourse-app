@@ -1,0 +1,31 @@
+<!-- templates/analysis/no_data.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>No Data Yet</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+        h2 {
+            color: #555;
+        }
+        a {
+            margin-top: 2rem;
+            display: inline-block;
+            text-decoration: none;
+            font-weight: bold;
+            color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <h2>No rounds played yet for analysis.</h2>
+    <p>Start a round to begin tracking your performance!</p>
+    <a href="{{ url_for('round.start_round') }}">Start a Round →</a>
+</body>
+</html>
