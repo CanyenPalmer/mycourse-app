@@ -44,3 +44,10 @@ def edit_round(round_id):
 def round_summary(round_id):
     round_data = Round.query.get_or_404(round_id)
     return render_template('round_summary.html', round=round_data)
+
+# ✅ Add this to support url_for('round.past_rounds')
+@round_bp.route('/past_rounds')
+@login_required
+def past_rounds():
+    user_rounds = Round.query.filter_by(user_id=current_user.id).order_by(Round.date_played.desc()).all()
+    return render_template('past_rounds.html', rounds=user_rounds)
