@@ -1,21 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
     <title>MyCourse</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body class="bg-gray-50 text-gray-900">
-    <div class="container mx-auto p-4 max-w-xl">
-        <header class="mb-6 text-center">
-            <h1 class="text-3xl font-bold">MyCourse</h1>
+<body class="bg-gray-100 text-gray-800 font-sans">
+    <nav class="bg-white shadow p-4 mb-6 flex justify-between items-center">
+        <div>
+            <a href="{{ url_for('main.home') }}" class="text-xl font-bold text-blue-600">MyCourse</a>
+        </div>
+        <div class="space-x-4">
             {% if current_user.is_authenticated %}
-                <p class="text-sm">Welcome, {{ current_user.email }}</p>
-                <a href="{{ url_for('logout') }}" class="text-blue-500 text-sm">Logout</a>
+                <a href="{{ url_for('dashboard') }}" class="text-blue-500 text-sm">Dashboard</a>
+                <a href="{{ url_for('auth.logout') }}" class="text-blue-500 text-sm">Logout</a>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}" class="text-blue-500 text-sm">Login</a>
+                <a href="{{ url_for('auth.register') }}" class="text-blue-500 text-sm">Register</a>
             {% endif %}
-        </header>
-        {% block content %}{% endblock %}
+        </div>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="container mx-auto px-4">
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
     </div>
+    {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
 </body>
 </html>
