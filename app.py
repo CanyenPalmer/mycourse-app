@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, session, f
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from config import Config
-from models import db, User, Round, Course
+from models import db, User, Round, CourseTemplate
 from routes.auth_routes import auth_bp
 from routes.round_routes import round_bp
 from routes.course_routes import course_bp
