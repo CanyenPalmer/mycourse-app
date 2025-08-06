@@ -2,14 +2,20 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Welcome Back, {{ current_user.name }}!</h2>
+    <h2 class="text-center mb-4">Welcome Back, {{ current_user.username }}!</h2>
 
     <!-- Line Graph -->
     <div class="card shadow p-3 mb-5 bg-white rounded">
         <h4 class="card-title text-center">Performance Trend (Score vs Par)</h4>
+        {% if plot_url %}
         <div class="text-center">
             <img src="data:image/png;base64,{{ plot_url }}" class="img-fluid" alt="Performance Trend Chart">
         </div>
+        {% else %}
+        <div class="alert alert-warning text-center">
+            No data available yet to display a performance trend.
+        </div>
+        {% endif %}
     </div>
 
     <!-- Action Buttons -->
