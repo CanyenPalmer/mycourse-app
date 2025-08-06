@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Past Rounds</h2>
+
+    {% if rounds %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Course</th>
+                        <th>Score</th>
+                        <th>Par</th>
+                        <th>FIR</th>
+                        <th>GIR</th>
+                        <th>Putts</th>
+                        <th>Penalties</th>
+                        <th>Summary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for round in rounds %}
+                    <tr>
+                        <td>{{ round.date_played.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ round.course_name }}</td>
+                        <td>{{ round.total_score }}</td>
+                        <td>{{ round.total_par }}</td>
+                        <td>{{ round.fairways_hit or 0 }}</td>
+                        <td>{{ round.greens_in_reg or 0 }}</td>
+                        <td>{{ round.putts or 0 }}</td>
+                        <td>{{ round.penalties or 0 }}</td>
+                        <td>
+                            <a href="{{ url_for('round.round_summary', round_id=round.id) }}" class="btn btn-sm btn-outline-primary">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            You haven't recorded any rounds yet.
+        </div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <a href="{{ url_for('main.dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}
