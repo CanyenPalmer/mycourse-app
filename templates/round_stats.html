@@ -1,14 +1,38 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block content %}
-<h2 class="text-xl font-semibold mb-4">Enter Stats</h2>
-<form method="post" class="space-y-4">
-    {% for i in range(par_list | length) %}
-        <div class="border p-2 rounded">
-            <h3 class="font-semibold mb-1">Hole {{ i+1 }} — Par {{ par_list[i] }}</h3>
-            <input type="number" name="strokes_{{ i }}" class="input" placeholder="Strokes" required />
-            <input type="number" name="putts_{{ i }}" class="input" placeholder="Putts" required />
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Enter Stats - Hole {{ current_hole }}</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+            {{ form.fairway_hit.label(class="form-label") }}
+            {{ form.fairway_hit(class="form-check-input") }}
         </div>
-    {% endfor %}
-    <button type="submit" class="btn">Complete Round</button>
-</form>
+
+        <div class="mb-3">
+            {{ form.green_in_reg.label(class="form-label") }}
+            {{ form.green_in_reg(class="form-check-input") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.putts.label(class="form-label") }}
+            {{ form.putts(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.penalties.label(class="form-label") }}
+            {{ form.penalties(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.score.label(class="form-label") }}
+            {{ form.score(class="form-control") }}
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success">Next Hole</button>
+        </div>
+    </form>
+</div>
 {% endblock %}
