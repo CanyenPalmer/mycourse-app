@@ -1,1 +1,25 @@
-<!-- Placeholder for round_summary.html -->
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-xl font-semibold mb-4">Round Summary</h2>
+
+<p><strong>Course:</strong> {{ round.course_name }} | <strong>Date:</strong> {{ round.date_played }}</p>
+<p><strong>Total Strokes:</strong> {{ round.strokes | sum }}</p>
+<p><strong>Total Putts:</strong> {{ round.putts | sum }}</p>
+<p><strong>Par:</strong> {{ round.pars | sum }}</p>
+
+<hr class="my-4" />
+
+<h3 class="text-lg font-bold mb-2">PGA Benchmarks</h3>
+<table class="table-auto text-sm w-full">
+    <thead><tr><th>Tier</th><th>Score</th><th>Putts</th></tr></thead>
+    <tbody>
+        {% for tier, data in feedback.benchmarks.items() %}
+        <tr><td>{{ tier }}</td><td>{{ data.score }}</td><td>{{ data.putts }}</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<hr class="my-4" />
+<h3 class="text-lg font-bold mb-2">Feedback</h3>
+<p class="italic">{{ feedback.feedback }}</p>
+{% endblock %}
