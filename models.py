@@ -4,21 +4,32 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
-class User(UserMixin, db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(150), nullable=False)
-    email = db.Column(db.String(150), unique=True, nullable=False)
+    username = db.Column(db.String(120), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
-    rounds = db.relationship('Round', backref='user', lazy=True)
+
+    rounds = db.relationship("Round", backref="user", lazy=True)
 
 class Round(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    date_played = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    course_name = db.Column(db.String(100), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    course_name = db.Column(db.String(120), nullable=False)
+    date_played = db.Column(db.DateTime, default=datetime.utcnow)
     total_score = db.Column(db.Integer, nullable=False)
     total_par = db.Column(db.Integer, nullable=False)
-    fairways_hit = db.Column(db.Integer, default=0)
-    greens_in_reg = db.Column(db.Integer, default=0)
-    putts = db.Column(db.Integer, default=0)
-    penalties = db.Column(db.Integer, default=0)
+    fairways_hit = db.Column(db.Integer)
+    greens_in_reg = db.Column(db.Integer)
+    putts = db.Column(db.Integer)
+    penalties = db.Column(db.Integer)
+    notes = db.Column(db.Text)
+
+class CourseTemplate(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    course_name = db.Column(db.String(120), nullable=False)
+    total_par = db.Column(db.Integer, nullable=False)
+    hole_pars = db.Column(db.String(120), nullable=False)  # e.g., "4,4,3,5,4,4,3,5,4"
+
+    def __repr__(self):
+        return f"<CourseTemplate {self.course_name} | Par {self.total_par}>"
