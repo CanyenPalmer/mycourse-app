@@ -1,0 +1,47 @@
+<!-- templates/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyCourse App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f8fc;
+            text-align: center;
+            padding: 4rem 1rem;
+        }
+        h1 {
+            color: #2a5d9f;
+        }
+        p {
+            font-size: 1.1rem;
+            color: #333;
+        }
+        .btn {
+            display: inline-block;
+            margin: 1rem;
+            padding: 1rem 2rem;
+            background-color: #2a5d9f;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #1e4374;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to MyCourse</h1>
+    <p>Your golf improvement assistant – track, analyze, and improve your rounds.</p>
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('dashboard.dashboard') }}" class="btn">Go to Dashboard</a>
+        <a href="{{ url_for('auth.logout') }}" class="btn">Logout</a>
+    {% else %}
+        <a href="{{ url_for('auth.login') }}" class="btn">Login</a>
+        <a href="{{ url_for('auth.register') }}" class="btn">Register</a>
+    {% endif %}
+</body>
+</html>
