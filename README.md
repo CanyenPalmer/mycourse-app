@@ -1,88 +1,90 @@
-# ⛳ MyCourse: Intelligent Golf Round Benchmarking App
+# 🏌️‍♂️ MyCourse: Golf Performance Tracker and Analytics App
 
-Welcome to **MyCourse** — a mobile-first web application that lets golfers track, analyze, and improve their game by comparing performance to PGA Tour benchmarks.
+**MyCourse** is a full-stack web application designed to help golfers track their rounds, analyze performance trends, and benchmark against PGA Tour data — all in a clean, mobile-friendly experience.
 
----
-
-## 🎯 Purpose & Impact
-
-**MyCourse** empowers amateur golfers with pro-level analysis:
-- 📈 **Track your rounds** hole-by-hole on real-world courses
-- 🧠 **Compare your performance** to PGA Tour Top 100, Top 50, and Top 10 averages
-- 💬 **Receive personalized improvement feedback** based on your worst-performing area
-- 📒 **Reflect on your game** with "After Round Thoughts" saved per round
-
-Most golf apps track stats — but **MyCourse helps players understand what to improve and why**.
+Built using Flask, SQLite, and Matplotlib, MyCourse provides amateur players and coaches with actionable insights into scoring patterns, consistency, and areas for improvement, while also serving as a personal case study in applied data science.
 
 ---
 
-## 🧪 Data Science Contributions
+## 🚀 Features
 
-This application demonstrates key applied data science principles in a real-world sports context:
+### ⛳ Round Management
+- Start and complete 9 or 18-hole rounds
+- Select from public course data or manually enter scorecard info
+- Track strokes, putts, penalties, FIR, GIR, and more
 
-### 1. **Benchmark Analytics**
-- Compares user stats to structured pro benchmark tiers
-- Identifies highest deviation (worst stat) dynamically
-- Translates performance gaps into natural language tips using rule-based modeling
+### 📊 Data Analytics Dashboard
+- Line chart comparing score vs par over last 10 rounds
+- Visual stat summaries for recent rounds
+- Auto-identified weaknesses with improvement recommendations
+- Per-hole strokes gained feedback (coming soon)
 
-### 2. **User-Level Time-Series Tracking**
-- Rounds are stored by user with timestamps
-- Enables longitudinal performance trend analysis (future enhancement: stroke gains over time)
+### 📚 Course Templates & Search
+- Searchable course database with tee box options
+- Save and reuse custom templates
+- Real-time filtering by course name
 
-### 3. **Contextual Data Capture**
-- Course name, tee box, number of holes, and starting hole are all user-selected
-- Supports more advanced contextual models (e.g., expected performance by course)
-
----
-
-## 📱 Features
-
-- ✅ Secure User Login with session tracking
-- ✅ Hole-by-hole stat entry: Score, FIR, GIR, Putts
-- ✅ Dynamic tee box + hole configuration
-- ✅ Personalized round summaries
-- ✅ Custom improvement tips using benchmark deltas
-- ✅ "After Round Thoughts" modal (saved per round)
-- ✅ Mobile-friendly UI (Tailwind CSS)
+### 🔒 User Accounts
+- Secure registration and login with password hashing
+- Persistent user history and round data
+- After-round notes stored with each session
 
 ---
 
-## ⚙️ Tech Stack
+## 💡 Why It Matters
 
-- **Backend**: Flask (Python)
-- **Frontend**: Jinja2 + Tailwind CSS
-- **Database**: SQLite (lightweight and portable)
-- **Auth**: Flask-Login
-- **APIs**: Ready for integration with GolfAPI.io (for real course data)
+### For Golfers:
+- Replaces vague “feel-based” evaluations with data-backed feedback
+- Helps identify scoring leaks (e.g., 3-putts, tee shot penalties)
+- Supports deliberate practice based on trends, not guesswork
+
+### For Data Scientists:
+- Demonstrates the end-to-end application of data science: from collection and storage, to visualization and interpretation
+- Illustrates real-world usage of SQLAlchemy ORM, Flask Blueprints, and CSRF-protected forms
+- Showcases user-centered data tracking in a structured yet intuitive format
 
 ---
 
-## 🧠 Future Enhancements
+## 🛠️ Tech Stack
 
-- 🧮 Strokes Gained analytics
-- 📊 Performance trends dashboard (putting %, GIR over time)
-- 📍 GPS hole tracking + real map overlays
-- 📤 CSV/PDF export of round data
-- 📱 PWA (Progressive Web App) or Mobile App (Flutter/Kivy)
+- **Frontend**: HTML, CSS (Bootstrap-style classes)
+- **Backend**: Python (Flask), Jinja2 Templates
+- **Database**: SQLite via SQLAlchemy ORM
+- **Authentication**: Flask-Login, Flask-WTF
+- **Data Visualization**: Matplotlib (rendered in base64)
+- **Deployment**: Render.com
+- **APIs (Planned)**: Real-time golf course scorecard loading via GolfAPI.io or similar
+
+---
+
+## 📈 Coming Soon
+
+- Strokes Gained analysis vs PGA Top 100, 50, 10 benchmarks
+- User-defined filters for performance trend graphs
+- Mobile app companion version using Kivy or Flutter
+- GPS-based round tracking with satellite overlay
+- Community leaderboard and anonymized performance sharing
 
 ---
 
 ## 👨‍💻 Author
 
 **Canyen Palmer**  
-Lead Analyst @ Iconic Care Inc.  
-📚 B.A. Mathematics | A.S. Computer Science  
-🎓 M.S. Data Science (In Progress) – University of Pittsburgh  
-🔗 [Portfolio](https://mycaddy.onrender.com) | [LinkedIn](https://linkedin.com) | [GitHub](https://github.com)
+Data Scientist  
+- B.A. in Mathematics, A.S. in Computer Science  
+- Master’s in Data Science (in progress) at the University of Pittsburgh  
+- Passionate about transforming raw data into better outcomes — on the course and in healthcare
 
 ---
 
-## 📥 Installation
+## 📬 Contact
 
-```bash
-git clone https://github.com/YOUR_USERNAME/mycourse-app.git
-cd mycourse-app
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-flask run
+Interested in contributing, collaborating, or hiring?
+
+📧 Email: [your-email@example.com]  
+🌐 Portfolio: [https://mycaddy.onrender.com](https://mycaddy.onrender.com)  
+📊 Blog: [Palmer Projects](https://your-blog-link.com)
+
+---
+
+> “Better data. Better decisions. Better golf.”
