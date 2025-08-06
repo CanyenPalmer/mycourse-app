@@ -1,1 +1,18 @@
-<!-- Placeholder for round_setup.html -->
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-xl font-semibold mb-4">Start Round</h2>
+<form method="post" class="space-y-4">
+    <input name="course_name" placeholder="Course Name" class="input" required />
+    <input name="tee_box" placeholder="Tee Box (e.g. Blue)" class="input" required />
+    <input name="start_hole" type="number" min="1" max="18" placeholder="Starting Hole" class="input" required />
+    <input name="holes_played" type="number" min="9" max="18" placeholder="Holes Playing (9 or 18)" class="input" required />
+    <input name="date_played" type="date" class="input" required />
+
+    <p class="text-sm text-gray-600">Enter par for each hole:</p>
+    {% for i in range(1, 19) %}
+        <input name="par_{{ i }}" type="number" min="3" max="6" placeholder="Hole {{ i }} Par" class="input" />
+    {% endfor %}
+
+    <button type="submit" class="btn">Continue</button>
+</form>
+{% endblock %}
