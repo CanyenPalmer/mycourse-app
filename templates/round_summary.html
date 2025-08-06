@@ -1,25 +1,39 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block content %}
-<h2 class="text-xl font-semibold mb-4">Round Summary</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Round Summary</h2>
 
-<p><strong>Course:</strong> {{ round.course_name }} | <strong>Date:</strong> {{ round.date_played }}</p>
-<p><strong>Total Strokes:</strong> {{ round.strokes | sum }}</p>
-<p><strong>Total Putts:</strong> {{ round.putts | sum }}</p>
-<p><strong>Par:</strong> {{ round.pars | sum }}</p>
+    <div class="card p-4 mb-4">
+        <h4>Course: {{ round.course_name }}</h4>
+        <p><strong>Date:</strong> {{ round.date_played.strftime('%Y-%m-%d') }}</p>
+        <p><strong>Score:</strong> {{ round.total_score }} (Par {{ round.total_par }})</p>
+    </div>
 
-<hr class="my-4" />
+    <div class="card p-4 mb-4">
+        <h5>Performance Stats</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Fairways Hit: {{ round.fairways_hit }}</li>
+            <li class="list-group-item">Greens in Regulation: {{ round.greens_in_reg }}</li>
+            <li class="list-group-item">Putts: {{ round.putts }}</li>
+            <li class="list-group-item">Penalties: {{ round.penalties }}</li>
+        </ul>
+    </div>
 
-<h3 class="text-lg font-bold mb-2">PGA Benchmarks</h3>
-<table class="table-auto text-sm w-full">
-    <thead><tr><th>Tier</th><th>Score</th><th>Putts</th></tr></thead>
-    <tbody>
-        {% for tier, data in feedback.benchmarks.items() %}
-        <tr><td>{{ tier }}</td><td>{{ data.score }}</td><td>{{ data.putts }}</td></tr>
-        {% endfor %}
-    </tbody>
-</table>
+    {% if sg_feedback %}
+    <div class="alert alert-warning mt-4">
+        <strong>Tip:</strong> {{ sg_feedback }}
+    </div>
+    {% endif %}
 
-<hr class="my-4" />
-<h3 class="text-lg font-bold mb-2">Feedback</h3>
-<p class="italic">{{ feedback.feedback }}</p>
+    {% if plot_url %}
+    <div class="card p-3 mt-4">
+        <h5 class="text-center">Benchmark Comparison</h5>
+        <img src="data:image/png;base64,{{ plot_url }}" class="img-fluid" alt="Stats Chart">
+    </div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <a href="{{ url_for('dashboard.dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
+    </div>
+</div>
 {% endblock %}
