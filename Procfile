@@ -1,1 +1,1 @@
-<!-- Placeholder for Procfile -->
+web: gunicorn run:app
