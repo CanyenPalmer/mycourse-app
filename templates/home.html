@@ -7,35 +7,66 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f8fc;
+            background-color: #f2f7fc;
             text-align: center;
             padding: 4rem 1rem;
+            color: #1a1a1a;
         }
+
         h1 {
-            color: #2a5d9f;
+            font-size: 2.8rem;
+            color: #2292e0; /* Light blue */
+            position: relative;
+            display: inline-block;
+            animation: ripple 2s ease-out;
         }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+                text-shadow: 0 0 0px rgba(0, 0, 0, 0);
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.85;
+                text-shadow: 0 0 8px rgba(34, 146, 224, 0.6);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+                text-shadow: 0 0 0px rgba(0, 0, 0, 0);
+            }
+        }
+
         p {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #333;
+            margin-top: 1rem;
         }
+
         .btn {
             display: inline-block;
             margin: 1rem;
-            padding: 1rem 2rem;
-            background-color: #2a5d9f;
+            padding: 0.8rem 1.6rem;
+            background-color: #2292e0;
             color: white;
-            border-radius: 8px;
+            border-radius: 10px;
             text-decoration: none;
-            transition: background-color 0.3s ease;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
+
         .btn:hover {
-            background-color: #1e4374;
+            background-color: #1877b9;
+            transform: scale(1.03);
         }
     </style>
 </head>
 <body>
     <h1>Welcome to MyCourse</h1>
     <p>Your golf improvement assistant – track, analyze, and improve your rounds.</p>
+
     {% if current_user.is_authenticated %}
         <a href="{{ url_for('dashboard.dashboard') }}" class="btn">Go to Dashboard</a>
         <a href="{{ url_for('auth.logout') }}" class="btn">Logout</a>
