@@ -1,33 +1,32 @@
+# models.py
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
-class User(db.Model, UserMixin):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
+    username = db.Column(db.String(150), nullable=False, unique=True)
+    password = db.Column(db.String(150), nullable=False)
+    rounds = db.relationship('Round', backref='user', lazy=True)
 
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+class Course(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    par_values = db.Column(db.String(255), nullable=False)  # e.g., "4,4,3,5,4,..."
+    tee_box = db.Column(db.String(100))
+    total_par = db.Column(db.Integer)
+    holes_played = db.Column(db.Integer)
+    rounds = db.relationship('Round', backref='course', lazy=True)
 
 class Round(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    course_name = db.Column(db.String(120))
-    tee_box = db.Column(db.String(50))
-    date_played = db.Column(db.String(20))
-    strokes = db.Column(db.PickleType)
-    putts = db.Column(db.PickleType)
-    pars = db.Column(db.PickleType)
-
-class CourseTemplate(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    course_name = db.Column(db.String(128))
-    par_list = db.Column(db.Text)  # JSON-encoded list of pars
-    par_total = db.Column(db.Integer)
-    created_count = db.Column(db.Integer, default=1)
+    date = db.Column(db.String(100), nullable=False)
+    score = db.Column(db.Integer, nullable=False)
+    fairways_hit = db.Column(db.Integer)
+    greens_in_regulation = db.Column(db.Integer)
+    putts = db.Column(db.Integer)
+    penalties = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=True)
