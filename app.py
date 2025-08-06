@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_wtf import CSRFProtect
 from config import Config
 from models import db, User, Round, CourseTemplate
 from routes.auth_routes import auth_bp
@@ -16,6 +17,9 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+# Enable CSRF Protection
+csrf = CSRFProtect(app)
 
 # Initialize DB and create tables
 db.init_app(app)
@@ -53,4 +57,3 @@ def page_not_found(e):
 # Run app
 if __name__ == "__main__":
     app.run(debug=True)
-
