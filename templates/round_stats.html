@@ -1,1 +1,14 @@
-<!-- Placeholder for round_stats.html -->
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-xl font-semibold mb-4">Enter Stats</h2>
+<form method="post" class="space-y-4">
+    {% for i in range(par_list | length) %}
+        <div class="border p-2 rounded">
+            <h3 class="font-semibold mb-1">Hole {{ i+1 }} — Par {{ par_list[i] }}</h3>
+            <input type="number" name="strokes_{{ i }}" class="input" placeholder="Strokes" required />
+            <input type="number" name="putts_{{ i }}" class="input" placeholder="Putts" required />
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn">Complete Round</button>
+</form>
+{% endblock %}
