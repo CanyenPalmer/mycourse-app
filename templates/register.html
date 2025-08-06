@@ -1,1 +1,9 @@
-<!-- Placeholder for register.html -->
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="text-xl font-semibold mb-4">Register</h2>
+<form method="post" class="space-y-4">
+    <input type="email" name="email" placeholder="Email" class="input" required />
+    <input type="password" name="password" placeholder="Password" class="input" required />
+    <button type="submit" class="btn">Register</button>
+</form>
+{% endblock %}
