@@ -5,3 +5,5 @@ gunicorn
 python-dotenv
 matplotlib
 Flask-WTF
+email_validator
+
