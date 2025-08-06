@@ -1,0 +1,36 @@
+<!-- templates/analysis/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Performance Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 1.5rem;
+        }
+        img {
+            border: 2px solid #444;
+            border-radius: 8px;
+            max-width: 90%;
+        }
+        a {
+            display: inline-block;
+            margin-top: 2rem;
+            text-decoration: none;
+            color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Score Trend Over Time</h1>
+    <img src="data:image/png;base64,{{ image_base64 }}" alt="Score Chart">
+    <br>
+    <a href="{{ url_for('dashboard.dashboard') }}">← Back to Dashboard</a>
+</body>
+</html>
