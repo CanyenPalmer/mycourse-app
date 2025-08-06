@@ -1,1 +1,8 @@
-<!-- Placeholder for index.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="text-center">
+    <h2 class="text-xl font-semibold mb-4">Track your golf performance, round by round.</h2>
+    <a href="{{ url_for('login') }}" class="btn">Login</a>
+    <a href="{{ url_for('register') }}" class="btn ml-2">Register</a>
+</div>
+{% endblock %}
