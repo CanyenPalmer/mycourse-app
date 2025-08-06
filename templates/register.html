@@ -1,22 +1,23 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block content %}
-<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
-    <h2 class="text-2xl font-bold text-center mb-4 text-black">Register</h2>
-    <form method="POST" class="space-y-4">
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-xl font-bold mb-4">Register</h2>
+    <form method="POST" action="{{ url_for('auth.register') }}">
         {{ form.hidden_tag() }}
-        <div>
-            {{ form.email.label(class="block text-sm font-medium text-gray-700") }}
-            {{ form.email(class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2") }}
+        <div class="mb-4">
+            {{ form.email.label(class="block text-gray-700") }}
+            {{ form.email(class="w-full px-3 py-2 border rounded") }}
         </div>
-        <div>
-            {{ form.password.label(class="block text-sm font-medium text-gray-700") }}
-            {{ form.password(class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2") }}
+        <div class="mb-4">
+            {{ form.password.label(class="block text-gray-700") }}
+            {{ form.password(class="w-full px-3 py-2 border rounded") }}
         </div>
-        <div>
-            <button type="submit"
-                class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200 ripple">
-                Register
-            </button>
+        <div class="mb-4">
+            {{ form.confirm_password.label(class="block text-gray-700") }}
+            {{ form.confirm_password(class="w-full px-3 py-2 border rounded") }}
+        </div>
+        <div class="text-center">
+            {{ form.submit(class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded") }}
         </div>
     </form>
 </div>
