@@ -1,10 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2 class="text-xl font-semibold mb-4">Register</h2>
-<form method="post" class="space-y-4">
-    {{ csrf_token() }}
-    <input type="email" name="email" placeholder="Email" class="input" required />
-    <input type="password" name="password" placeholder="Password" class="input" required />
-    <button type="submit" class="btn">Register</button>
-</form>
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
+    <h2 class="text-2xl font-bold text-center mb-4 text-black">Register</h2>
+    <form method="POST" class="space-y-4">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.email.label(class="block text-sm font-medium text-gray-700") }}
+            {{ form.email(class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2") }}
+        </div>
+        <div>
+            {{ form.password.label(class="block text-sm font-medium text-gray-700") }}
+            {{ form.password(class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2") }}
+        </div>
+        <div>
+            <button type="submit"
+                class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200 ripple">
+                Register
+            </button>
+        </div>
+    </form>
+</div>
 {% endblock %}
