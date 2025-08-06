@@ -18,11 +18,9 @@ def register():
         )
         db.session.add(new_user)
         db.session.commit()
-        flash("Account created successfully! You are now logged in.", "success")
-        login_user(new_user)
-        return redirect(url_for("dashboard.dashboard"))
+        flash("Account created successfully!", "success")
+        return redirect(url_for("auth.login"))
     return render_template("auth/register.html", form=form)
-
 
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
@@ -36,7 +34,6 @@ def login():
         else:
             flash("Invalid email or password", "danger")
     return render_template("auth/login.html", form=form)
-
 
 @auth_bp.route("/logout")
 @login_required
