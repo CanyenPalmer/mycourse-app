@@ -1,26 +1,66 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
 {% block content %}
-<h2 class="text-xl font-semibold mb-4">Your Dashboard</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Welcome Back, {{ current_user.name }}!</h2>
 
-<div class="mb-6">
-    <a href="{{ url_for('start_round') }}" class="btn w-full mb-2">Start New Round</a>
-</div>
+    <!-- Line Graph -->
+    <div class="card shadow p-3 mb-5 bg-white rounded">
+        <h4 class="card-title text-center">Performance Trend (Score vs Par)</h4>
+        <div class="text-center">
+            <img src="data:image/png;base64,{{ plot_url }}" class="img-fluid" alt="Performance Trend Chart">
+        </div>
+    </div>
 
-{% if rounds %}
-    <h3 class="font-semibold mb-2">Recent Rounds</h3>
-    <table class="table-auto w-full text-sm">
-        <thead><tr><th>Date</th><th>Score</th><th>Putts</th></tr></thead>
-        <tbody>
-            {% for r in rounds %}
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-center mb-4">
+        <a href="{{ url_for('round.start_round') }}" class="btn btn-primary mx-3">Start New Round</a>
+        <a href="{{ url_for('round.view_past_rounds') }}" class="btn btn-secondary mx-3">View Past Rounds</a>
+    </div>
+
+    <!-- Recent Round Summary -->
+    {% if latest_round %}
+    <div class="card shadow p-4 mb-5 bg-light rounded">
+        <h4 class="mb-3">Most Recent Round Summary</h4>
+        <table class="table table-striped">
             <tr>
-                <td>{{ r.date_played }}</td>
-                <td>{{ r.strokes | sum }}</td>
-                <td>{{ r.putts | sum }}</td>
+                <th>Date</th>
+                <td>{{ latest_round.date_played.strftime('%Y-%m-%d') }}</td>
             </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>No rounds recorded yet.</p>
-{% endif %}
+            <tr>
+                <th>Course</th>
+                <td>{{ latest_round.course_name }}</td>
+            </tr>
+            <tr>
+                <th>Total Score</th>
+                <td>{{ latest_round.total_score }}</td>
+            </tr>
+            <tr>
+                <th>Total Par</th>
+                <td>{{ latest_round.total_par }}</td>
+            </tr>
+            <tr>
+                <th>Fairways Hit</th>
+                <td>{{ latest_round.fairways_hit }}</td>
+            </tr>
+            <tr>
+                <th>Greens in Regulation</th>
+                <td>{{ latest_round.greens_in_reg }}</td>
+            </tr>
+            <tr>
+                <th>Putts</th>
+                <td>{{ latest_round.putts }}</td>
+            </tr>
+            <tr>
+                <th>Penalty Strokes</th>
+                <td>{{ latest_round.penalties }}</td>
+            </tr>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center">
+        No rounds played yet. Start your first round to view your stats!
+    </div>
+    {% endif %}
+</div>
 {% endblock %}
