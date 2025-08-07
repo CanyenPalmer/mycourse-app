@@ -2,9 +2,9 @@ from flask import Flask
 from flask_login import LoginManager
 from extensions import db
 from models import User
-from .auth_routes import auth
-from .dashboard_routes import dashboard_bp
-from .round_routes import round_bp
+from routes.auth_routes import auth
+from routes.dashboard_routes import dashboard_bp
+from routes.round_routes import round_bp
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
