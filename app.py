@@ -2,7 +2,10 @@ from flask import Flask
 from flask_login import LoginManager
 from extensions import db
 from models import User
-from routes import auth, dashboard, round_bp
+from .auth_routes import auth
+from .dashboard_routes import dashboard
+from .round_routes import round_bp
+
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
