@@ -2,44 +2,37 @@
 {% block content %}
 <div class="container mt-5">
     <h2 class="text-center mb-4">Start New Round</h2>
-    <form method="POST" action="{{ url_for('round.start_round') }}">
+    <form method="POST">
         {{ csrf_token() }}
 
-        <div class="mb-3">
-            <label for="course_name" class="form-label">Course Name</label>
-            <input type="text" class="form-control" name="course_name" required>
+        <div class="form-group">
+            <label for="course_name">Course Name</label>
+            <input type="text" class="form-control" id="course_name" name="course_name" required>
         </div>
 
-        <div class="mb-3">
-            <label for="tee" class="form-label">Tee</label>
-            <select name="tee" class="form-control" required>
-                <option value="Back">Back</option>
-                <option value="Middle">Middle</option>
-                <option value="Front">Front</option>
-            </select>
+        <div class="form-group">
+            <label for="tee">Tee</label>
+            <input type="text" class="form-control" id="tee" name="tee" required>
         </div>
 
-        <div class="mb-3">
-            <label for="holes" class="form-label">Number of Holes</label>
-            <select name="holes" class="form-control" required>
+        <div class="form-group">
+            <label for="holes">Number of Holes</label>
+            <select class="form-control" id="holes" name="holes" required>
                 <option value="9">9 Holes</option>
-                <option value="18">18 Holes</option>
+                <option value="18" selected>18 Holes</option>
             </select>
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Hole Pars</label>
-            <div class="row">
+        <div class="form-group">
+            <label>Hole Pars</label>
+            <div id="hole-pars">
                 {% for i in range(1, 19) %}
-                <div class="col-md-2 mb-2">
-                    <label>Hole {{ i }}</label>
-                    <input type="number" name="par_values[]" class="form-control" min="3" max="5" {% if i <= 9 %}required{% endif %}>
-                </div>
+                <input type="number" class="form-control mb-2" name="par_values[]" placeholder="Par for hole {{ i }}" required>
                 {% endfor %}
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Start Round</button>
+        <button type="submit" class="btn btn-success mt-3">Create Round</button>
     </form>
 </div>
 {% endblock %}
