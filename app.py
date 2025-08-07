@@ -3,9 +3,8 @@ from flask_login import LoginManager
 from extensions import db
 from models import User
 from .auth_routes import auth
-from .dashboard_routes import dashboard
+from .dashboard_routes import dashboard_bp
 from .round_routes import round_bp
-
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
@@ -22,5 +21,5 @@ def load_user(user_id):
 
 # Register blueprints
 app.register_blueprint(auth, url_prefix='/auth')
-app.register_blueprint(dashboard, url_prefix='/dashboard')
+app.register_blueprint(dashboard_bp, url_prefix='/dashboard')
 app.register_blueprint(round_bp, url_prefix='/rounds')
