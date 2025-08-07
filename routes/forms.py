@@ -7,3 +7,9 @@ class RegisterForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
     confirm_password = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo("password")])
+
+class StartRoundForm(FlaskForm):
+    course_name = StringField("Course Name", validators=[DataRequired()])
+    tee = SelectField("Tee", choices=[("Back", "Back"), ("Middle", "Middle"), ("Front", "Front")], validators=[DataRequired()])
+    holes = SelectField("Number of Holes", choices=[("9", "9"), ("18", "18")], validators=[DataRequired()])
+    submit = SubmitField("Start Round")
