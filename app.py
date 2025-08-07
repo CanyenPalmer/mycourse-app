@@ -21,5 +21,5 @@ def load_user(user_id):
 
 # Register blueprints
 app.register_blueprint(auth, url_prefix='/auth')
-app.register_blueprint(dashboard_bp, url_prefix='/dashboard')
-app.register_blueprint(round_bp, url_prefix='/rounds')
+app.register_blueprint(dashboard_bp, url_prefix='/')      # ✅ Show dashboard at '/'
+app.register_blueprint(round_bp, url_prefix='/ro_
