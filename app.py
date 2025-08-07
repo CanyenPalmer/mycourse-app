@@ -1,8 +1,7 @@
-# app.py
 from flask import Flask
 from flask_login import LoginManager
 from extensions import db
-from models import User  # ✅ no longer circular
+from models import User
 from routes import auth, dashboard, round_bp
 
 app = Flask(__name__)
@@ -18,6 +17,7 @@ login_manager.login_view = 'auth.login'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# Register blueprints
 app.register_blueprint(auth, url_prefix='/auth')
 app.register_blueprint(dashboard, url_prefix='/dashboard')
 app.register_blueprint(round_bp, url_prefix='/rounds')
