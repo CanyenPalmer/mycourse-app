@@ -6,8 +6,8 @@
         {{ csrf_token() }}
 
         <div class="form-group">
-            <label>Score Data (JSON or formatted string)</label>
-            <textarea name="score_data" class="form-control" rows="5" required>{{ round.score_data or '' }}</textarea>
+            <label for="score_data">Score Data (JSON or formatted string)</label>
+            <textarea name="score_data" id="score_data" class="form-control" rows="5" required>{{ round.score_data or '' }}</textarea>
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Save Round</button>
