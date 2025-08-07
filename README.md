@@ -73,17 +73,7 @@ Built using Flask, SQLite, and Matplotlib, MyCourse provides amateur players and
 Data Scientist  
 - B.A. in Mathematics, A.S. in Computer Science  
 - Master’s in Data Science (in progress) at the University of Pittsburgh  
-- Passionate about transforming raw data into better outcomes — on the course and in healthcare
-
----
-
-## 📬 Contact
-
-Interested in contributing, collaborating, or hiring?
-
-📧 Email: [your-email@example.com]  
-🌐 Portfolio: [https://mycaddy.onrender.com](https://mycaddy.onrender.com)  
-📊 Blog: [Palmer Projects](https://your-blog-link.com)
+- Passionate about transforming raw data into better outcomes — on the course and in business
 
 ---
 
