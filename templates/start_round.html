@@ -3,28 +3,21 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">Start New Round</h2>
     <form method="POST">
-        {{ csrf_token() }}
+        {{ form.hidden_tag() }}
 
         <div class="form-group">
-            <label for="course_name">Course Name</label>
-            <input type="text" class="form-control" id="course_name" name="course_name" required>
+            {{ form.course_name.label(class="form-label") }}
+            {{ form.course_name(class="form-control", required=true) }}
         </div>
 
         <div class="form-group mt-3">
-            <label for="tee">Tee</label>
-            <select class="form-control" id="tee" name="tee">
-                <option value="Back">Back</option>
-                <option value="Middle">Middle</option>
-                <option value="Front">Front</option>
-            </select>
+            {{ form.tee.label(class="form-label") }}
+            {{ form.tee(class="form-control") }}
         </div>
 
         <div class="form-group mt-3">
-            <label for="holes">Number of Holes</label>
-            <select class="form-control" id="holes" name="holes">
-                <option value="9">9</option>
-                <option value="18">18</option>
-            </select>
+            {{ form.holes.label(class="form-label") }}
+            {{ form.holes(class="form-control") }}
         </div>
 
         <div class="form-group mt-3">
@@ -39,7 +32,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-4">Start Round</button>
+        {{ form.submit(class="btn btn-primary mt-4") }}
     </form>
 </div>
 {% endblock %}
