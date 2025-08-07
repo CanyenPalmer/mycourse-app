@@ -10,29 +10,36 @@
             <input type="text" class="form-control" id="course_name" name="course_name" required>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mt-3">
             <label for="tee">Tee</label>
-            <input type="text" class="form-control" id="tee" name="tee" required>
-        </div>
-
-        <div class="form-group">
-            <label for="holes">Number of Holes</label>
-            <select class="form-control" id="holes" name="holes" required>
-                <option value="9">9 Holes</option>
-                <option value="18" selected>18 Holes</option>
+            <select class="form-control" id="tee" name="tee">
+                <option value="Back">Back</option>
+                <option value="Middle">Middle</option>
+                <option value="Front">Front</option>
             </select>
         </div>
 
-        <div class="form-group">
-            <label>Hole Pars</label>
-            <div id="hole-pars">
+        <div class="form-group mt-3">
+            <label for="holes">Number of Holes</label>
+            <select class="form-control" id="holes" name="holes">
+                <option value="9">9</option>
+                <option value="18">18</option>
+            </select>
+        </div>
+
+        <div class="form-group mt-3">
+            <label>Par Values (Hole-by-hole)</label>
+            <div id="parInputs">
                 {% for i in range(1, 19) %}
-                <input type="number" class="form-control mb-2" name="par_values[]" placeholder="Par for hole {{ i }}" required>
+                    <div class="form-inline mb-1">
+                        <label class="mr-2">Hole {{ i }}:</label>
+                        <input type="number" name="par_values[]" class="form-control" min="3" max="5" required>
+                    </div>
                 {% endfor %}
             </div>
         </div>
 
-        <button type="submit" class="btn btn-success mt-3">Create Round</button>
+        <button type="submit" class="btn btn-primary mt-4">Start Round</button>
     </form>
 </div>
 {% endblock %}
