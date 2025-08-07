@@ -14,4 +14,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 class StartRoundForm(FlaskForm):
-    course_name = StringField('Course Name', valid_
+    course_name = StringField('Course Name', validators=[DataRequired()])
+    tee_box = SelectField('Tee Box', choices=[('Blue', 'Blue'), ('White', 'White'), ('Red', 'Red')], validators=[DataRequired()])
+    num_holes = SelectField('Number of Holes', choices=[('9', '9'), ('18', '18')], validators=[DataRequired()])
+    submit = SubmitField('Start Round')
